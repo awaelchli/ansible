@@ -1,4 +1,4 @@
-# Ansible Configuration for Desktop and Server
+# Desktop and Server Configuration with Ansible
 
 
 ## Usage
