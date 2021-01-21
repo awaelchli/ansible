@@ -9,7 +9,7 @@ curl https://raw.githubusercontent.com/awaelchli/ansible/master/provision.sh | s
 ```
 This requires the vault key saved in a file `$HOME/.vault-key`.
 
-Alternatively, if ansible-pull is already installed:
+Alternatively, if ansible is already installed:
 ```bash
 ansible-pull -U https://github.com/awaelchli/ansible.git --ask-vault-pass
 ```
