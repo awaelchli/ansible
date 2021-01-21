@@ -7,6 +7,7 @@ Provision local machine in a single command:
 ```bash
 curl https://raw.githubusercontent.com/awaelchli/ansible/master/provision.sh | sudo bash
 ```
+This requires the vault key saved in a file `$HOME/.vault-key`.
 
 Alternatively, if ansible-pull is already installed:
 ```bash
