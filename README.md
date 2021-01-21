@@ -16,4 +16,4 @@ ansible-pull -U https://github.com/awaelchli/ansible.git --ask-vault-pass
 
 ## Acknowledgements
 
-This Ansible configuration is built on the excellent template provided by [Jay LaCroix](https://github.com/LearnLinuxTV) from [LearnLinux.tv](http://www.learnlinux.tv).
+This Ansible configuration is built on the excellent template by [Jay LaCroix](https://github.com/LearnLinuxTV) from [LearnLinux.tv](http://www.learnlinux.tv).
