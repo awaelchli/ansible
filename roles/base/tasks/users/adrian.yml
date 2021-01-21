@@ -1,0 +1,26 @@
+- name: users | {{ username }} | create group
+  tags: groups,users
+  group:
+    name: "{{ groupname }}"
+    state: present
+
+- name: users | {{ username }} | create user
+  tags: sudo,users
+  user:
+    name: "{{ username }}"
+    group: "{{ groupname }}"
+    groups: "{{ sudo_group }}"
+    state: present
+    comment: "{{ full_name | default(username) }}"
+    password: "{{ adrian_passwd | password_hash('sha512') }}"
+    shell: "{{ shell | default('/bin/bash') }}"
+    update_password: on_create
+
+- name: users | {{ username }} | add sudoers file
+  tags: settings,sudo,system,users
+  copy:
+    src: users/sudoers_adrian
+    dest: /etc/sudoers.d/{{ username }}
+    owner: root
+    group: root
+    mode: 0440

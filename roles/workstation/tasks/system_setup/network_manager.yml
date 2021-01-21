@@ -1,0 +1,9 @@
+- name: system setup | network manager | install packages 
+  tags: packages,network-manager,vpn
+  package:
+    name:
+      - "{{ network_manager_fortisslvpn_package }}"
+      - "{{ network_manager_openvpn_package }}"
+      - "{{ network_manager_package }}"
+      - "{{ network_manager_pptp_package }}"
+      - "{{ network_manager_vpnc_package }}"

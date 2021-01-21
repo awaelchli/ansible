@@ -1,0 +1,54 @@
+- name: users | {{ username }} | remove preinstalled clutter from home directory
+  file:
+    path: /home/{{ username }}/{{ item }}
+    state: absent
+  with_items:
+    - examples.desktop
+    - Desktop
+    - Documents
+    - Downloads
+    - Music
+    - Pictures
+    - Public
+    - Templates
+    - Videos
+
+- name: users | {{ username }} | create personal directories
+  tags: dotfiles
+  file:
+    path: /home/{{ username }}/{{ item.dir }}
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
+    mode: 0700
+  with_items:
+    - { dir: .config }
+    - { dir: .config/autostart }
+    - { dir: .local }
+    - { dir: .local/share }
+    - { dir: .local/share/applications }
+    - { dir: .ssh }
+    - { dir: bin }
+    - { dir: desktop }
+    - { dir: documents }
+    - { dir: downloads }
+    - { dir: repositories }
+    - { dir: templates }
+
+- name: users | {{ username }} | add templates
+  tags: templates
+  copy:
+    src: users/adrian/templates
+    dest: /home/{{ username }}
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
+    mode: 0644
+
+- name: users | {{ username }} | copy profile image
+  tags: dotfiles
+  copy:
+    src: users/adrian/profile_image.png
+    dest: /var/lib/AccountsService/icons/{{ username }}.png
+    owner: root
+    group: root
+    mode: 0644

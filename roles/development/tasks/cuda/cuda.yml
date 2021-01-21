@@ -1,0 +1,30 @@
+- name: cuda | install CUDA toolkit
+  when: nvidia_cuda_versions is defined
+  block: 
+    - name: cuda | download CUDA drivers
+      get_url:
+        dest: "/tmp/cuda_{{ item.version }}.run"
+        url: "{{ item.url }}"
+        mode: u=rwx,g=rx,o=r
+      with_items: "{{ nvidia_cuda_versions }}"
+
+    - name: cuda | install CUDA drivers
+      command: "sh cuda_{{ item.version }}.run --silent --override --toolkit --toolkitpath={{ nvidia_cuda_prefix }}-{{ item.version }}"
+      args:
+        chdir: /tmp
+        creates: "{{ nvidia_cuda_prefix }}-{{ item.version }}"
+      with_items: "{{ nvidia_cuda_versions }}"
+
+    - name: cuda | create folder for CUDA module files
+      file:
+        path: /etc/modulefiles/cuda
+        state: directory
+
+    - name: cuda | copy CUDA module files
+      template:
+        src: modulefiles/cuda/default.j2
+        dest: "/etc/modulefiles/cuda/{{ item.version }}"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      with_items: "{{ nvidia_cuda_versions }}"

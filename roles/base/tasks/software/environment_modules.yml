@@ -1,0 +1,49 @@
+- name: software | environment modules | prerequisites
+  tags: packages,system,environment-modules
+  package:
+    state: latest
+    name:
+      - autoconf
+      - automake
+      - autopoint
+      - tcl-dev
+
+- name: software | environment modules | clone repo
+  tags: packages,system,environment-modules
+  git:
+    repo: https://github.com/cea-hpc/modules.git
+    dest: /tmp/modules
+    version: master
+  changed_when: false
+
+- name: software | environment modules | install
+  tags: packages,system,environment-modules
+  shell: "{{ item }}"
+  args:
+    chdir: /tmp/modules
+    creates: /usr/local/Modules
+  with_items:
+    - ./configure --modulefilesdir /etc/modulefiles --prefix /usr/local/Modules
+    - make
+    - make install
+
+- name: software | environment modules | remove build files
+  tags: packages,system,environment-modules
+  file:
+    path: /tmp/modules
+    state: absent
+  changed_when: false
+
+- name: software | environment modules | link shell initialization scripts
+  tags: packages,system,environment-modules
+  file:
+    src: "{{ item.src}}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    state: link
+    force: yes
+  with_items:
+    - {src: /usr/local/Modules/init/fish, dest: /etc/profile.d/modules.fish}
+    - {src: /usr/local/Modules/init/sh, dest: /etc/profile.d/modules.sh}
+    - {src: /usr/local/Modules/init/zsh, dest: /etc/profile.d/modules.zsh}

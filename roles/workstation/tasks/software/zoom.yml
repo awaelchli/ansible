@@ -1,0 +1,8 @@
+- name: software | zoom | install package
+  tags: packages,zoom,flatpak,workstation-packages
+  become_user: "{{ username }}"
+  flatpak:
+    name: us.zoom.Zoom
+    method: user
+    state: present
+  when: zoom is defined and zoom == true

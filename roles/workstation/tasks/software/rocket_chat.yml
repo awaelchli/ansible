@@ -1,0 +1,8 @@
+- name: software | rocket chat | install package
+  tags: packages,rocket_chat,flatpak,workstation-packages
+  become_user: "{{ username }}"
+  flatpak:
+    name: chat.rocket.RocketChat
+    method: user
+    state: present
+  when: rocket_chat is defined and rocket_chat == true

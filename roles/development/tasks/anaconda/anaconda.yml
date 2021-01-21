@@ -1,0 +1,54 @@
+- name: anaconda | check for existing installation
+  stat:
+    path: "{{ anaconda_prefix }}/bin/conda"
+  changed_when: false 
+  register: anaconda_conda_binary
+
+- when: not anaconda_conda_binary.stat.exists
+  block:
+    - name: anaconda | download installation script
+      get_url:
+        url: https://repo.anaconda.com/archive/Anaconda{{ anaconda_python_version }}-{{ anaconda_version }}-Linux-x86_64.sh
+        dest: /tmp/install-anaconda.sh
+        mode: 0550
+
+    - name: anaconda | create installation folder
+      file:
+        path: "{{ anaconda_prefix }}"
+        state: directory
+        owner: root
+        mode: 755
+        recurse: yes
+
+    - name: anaconda | run installer
+      shell: "/tmp/install-anaconda.sh -b -u -p {{ anaconda_prefix }}"
+    
+    - name: anaconda | remove installer
+      file:
+        state: absent
+        path: /tmp/install-anaconda.sh
+
+    - name: anaconda | set read permissions
+      file:
+        path: "{{ anaconda_prefix }}"
+        mode: +r
+        recurse: yes
+
+    - name: anaconda | set execution permissions
+      file:
+        path: "{{ anaconda_prefix }}/bin"
+        mode: +x
+        recurse: yes
+
+- name: anaconda | create folder for anaconda module files
+  file:
+    path: "/etc/modulefiles/anaconda"
+    state: directory
+
+- name: anaconda | copy anaconda module files
+  template:
+    src: modulefiles/anaconda/3.j2
+    dest: "/etc/modulefiles/anaconda/3"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r

@@ -1,0 +1,6 @@
+ansible_user: aw18f408
+
+# user information (override group vars)
+username: aw18f408
+groupname: aw18f408
+

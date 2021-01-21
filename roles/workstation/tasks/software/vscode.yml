@@ -1,0 +1,6 @@
+- name: software | vscode | install packages
+  tags: packages,snap,vscode,code,workstation-packages
+  snap:
+    name: code
+    classic: yes
+  when: vscode is defined and vscode == true

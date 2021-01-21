@@ -1,0 +1,62 @@
+# load distro-specific variables
+- include_vars: "{{ ansible_distribution }}.yml"
+  tags: always
+
+- block:
+  # user configuration
+  - import_tasks: users/adrian.yml
+
+  # desktop environments
+  - include_tasks: desktop_environments/gnome/appearance.yml
+    when: gnome is defined and gnome == true
+
+  - include_tasks: desktop_environments/gnome/keybindings.yml
+    when: gnome is defined and gnome == true
+
+  - include_tasks: desktop_environments/gnome/nautilus.yml
+    when: gnome is defined and gnome == true
+
+  - include_tasks: desktop_environments/gnome/packages.yml
+    when: gnome is defined and gnome == true
+
+  - include_tasks: desktop_environments/gnome/peripherals.yml
+    when: gnome is defined and gnome == true
+
+  - include_tasks: desktop_environments/gnome/shell_settings.yml
+    when: gnome is defined and gnome == true
+
+  # system setup
+  - import_tasks: system_setup/autofs.yml
+  - import_tasks: system_setup/fonts.yml
+  - import_tasks: system_setup/network_manager.yml
+  - import_tasks: system_setup/tweaks.yml
+
+  # install software
+  - import_tasks: software/codecs.yml
+  - import_tasks: software/deja_dup.yml
+  - import_tasks: software/filezilla.yml
+  - import_tasks: software/firefox.yml
+  - import_tasks: software/gitkraken.yml
+  - import_tasks: software/google_chrome.yml
+  - import_tasks: software/insync.yml
+  - import_tasks: software/libreoffice.yml
+  - import_tasks: software/misc_packages.yml
+  - import_tasks: software/nextcloud.yml
+  - import_tasks: software/pycharm.yml
+  - import_tasks: software/rocket_chat.yml
+  - import_tasks: software/skype.yml
+  - import_tasks: software/slack.yml
+  - import_tasks: software/telegram.yml
+  - import_tasks: software/tex.yml
+  - import_tasks: software/texstudio.yml
+  - import_tasks: software/thunderbird.yml
+  - import_tasks: software/vlc.yml
+  - import_tasks: software/vscode.yml
+  - import_tasks: software/zoom.yml
+
+  # password managers
+  - import_tasks: password_management/pass.yml
+  - import_tasks: password_management/browserpass.yml
+  
+  rescue:
+    - set_fact: task_failed=true

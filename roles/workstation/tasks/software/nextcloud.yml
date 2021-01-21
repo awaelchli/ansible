@@ -1,0 +1,18 @@
+- name: software | nextcloud | install package
+  tags: packages,flatpak,nextcloud,workstation-packages
+  become_user: "{{ username }}"
+  flatpak:
+    name: com.nextcloud.desktopclient.nextcloud
+    method: user
+    state: present
+  when: nextcloud is defined and nextcloud == true
+
+- name: software | nextcloud | enable autostart
+  tags: packages,flatpak,nextcloud,workstation-packages
+  file:
+    src: /home/{{ username }}/.local/share/flatpak/exports/share/applications/com.nextcloud.desktopclient.nextcloud.desktop
+    dest: /home/{{ username }}/.config/autostart/com.nextcloud.desktopclient.nextcloud.desktop
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
+    state: link
+  when: nextcloud is defined and nextcloud == true

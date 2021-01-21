@@ -1,0 +1,26 @@
+- name: software | insync | install package
+  when: insync is defined and insync == true
+  block: 
+    - name: software | insync | add repository key
+      apt_key:
+        keyserver: keyserver.ubuntu.com
+        id: ACCAF35C
+      when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+
+    - name: software | insync | add repository
+      apt_repository:
+        repo: "deb http://apt.insync.io/ubuntu {{ ansible_distribution_release }} non-free contrib"
+        filename: insync
+      register: insync_repo
+      when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+
+    - name: software | insync | update sources (repo added or changed)
+      apt:
+        update_cache: yes
+      changed_when: False
+      when: insync_repo.changed
+
+    - name: software | insync | install package
+      apt:
+        name: insync
+      when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]

@@ -1,0 +1,38 @@
+# playbook to setup development servers at CVG
+
+- hosts:
+    - euler.inf.unibe.ch
+  become: true
+  pre_tasks:
+    - name: pre-run | update package cache (debian, etc)
+      tags: always
+      apt: update_cache=yes
+      changed_when: False
+      when: ansible_distribution in ["Debian", "Ubuntu"]
+
+    - name: pre-run | upgrade packages
+      tags: always
+      package: 
+        name: "*"
+        state: latest
+      
+  roles:
+    - base
+    - home_folder
+    - development
+
+  tasks:
+    - name: cleanup package cache (debian and ubuntu)
+      tags: always
+      apt:
+        autoclean: yes
+      changed_when: false
+      when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+
+    - name: autoremove orphan packages (debian and ubuntu)
+      tags: always
+      apt:
+        autoremove: yes
+        purge: yes
+      when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+

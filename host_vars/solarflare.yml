@@ -1,0 +1,37 @@
+# openssh
+ssh_users: "adrian"
+
+# platform-specific
+ansible_python_interpreter: /usr/bin/python3
+microcode_amd_install: false
+microcode_intel_install: true
+
+# app defaults
+gui_editor: gedit
+terminal_emulator: terminator
+web_browser: flatpak run org.mozilla.firefox
+
+# application selection
+autofs: true
+deja_dup: true
+filezilla: true
+firefox: true
+gitkraken: true
+insync: true
+libreoffice: true
+nextcloud: true
+pycharm: true
+rocket_chat: true
+skype: true
+slack: true
+telegram: true
+texlive: true
+texstudio: true
+thunderbird: true
+virtualbox: true
+vlc: true
+vscode: true
+zoom: true
+
+# desktop environment selection
+gnome: true

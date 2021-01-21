@@ -1,0 +1,101 @@
+- name: home | {{ username }} | add authorized keys
+  tags: dotfiles,ssh,ssh-keys,home
+  become_user: "{{ username }}"
+  authorized_key:
+    user: "{{ username }}"
+    key: "{{ lookup('file', '../files/users/adrian/ssh/' ~ item.public_key_file) }}"
+    state: "{{ item.state | default(omit) }}"
+    comment: "{{ item.comment | default(omit) }}"
+  loop: "{{ ssh_keys_list }}"
+
+- name: home | {{ username }} | create repositories directory
+  tags: dotfiles,ssh,home
+  become_user: "{{ username }}"
+  file:
+    path: "/home/{{ username }}/repositories"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
+    mode: 0700
+
+- name: home | {{ username }} | clone dotfiles repository
+  tags: dotfiles,home
+  become_user: "{{ username }}"
+  git:
+    repo: "{{ home_repository_https_url }}"
+    dest: "/home/{{ username }}/repositories/dotfiles.git"
+    accept_hostkey: yes
+    bare: yes
+    version: "{{ home_repository_branch }}"
+
+- name: home | {{ username }} | checkout dotfiles in home folder
+  tags: dotfiles,home
+  become_user: "{{ username }}"
+  command: "git --git-dir=/home/{{ username }}/repositories/dotfiles.git --work-tree=/home/{{ username }} checkout -f master"
+  args:
+    chdir: "/home/{{ username }}"
+  notify: update_xdg
+
+- name: home | {{ username }} | configure dotfiles repository
+  tags: dotfiles,home
+  become_user: "{{ username }}"
+  command: "git --git-dir=/home/{{ username }}/repositories/dotfiles.git --work-tree=/home/{{ username }} {{ item }}"
+  with_items: 
+    - config --local status.showUntrackedFiles no
+    - "remote set-url origin {{ home_repository_ssh_url }}"
+  changed_when: false
+
+- name: home | {{ username }} | set permissions of ssh folder
+  tags: dotfiles,home
+  file:
+    path: "/home/{{ username }}/.ssh/config"
+    mode: 0600
+
+- name: home | {{ username }} | remove preinstalled clutter from home directory
+  file:
+    path: "/home/{{ username }}/{{ item }}"
+    state: absent
+  with_items:
+    - examples.desktop
+    - Desktop
+    - Documents
+    - Downloads
+    - Music
+    - Pictures
+    - Public
+    - Templates
+    - Videos
+
+- name: home | {{ username }} | create personal config directories
+  tags: dotfiles,home
+  file:
+    path: /home/{{ username }}/{{ item.dir }}
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
+    mode: 0700
+  with_items:
+    - { dir: .config }
+    - { dir: .ssh }
+    - { dir: bin }
+    - { dir: repositories }
+
+- name: home | {{ username }} | copy public keys
+  tags: dotfiles,ssh,ssh-keys,home
+  copy:
+    src: "../files/users/adrian/ssh/{{ item.public_key_file }}"
+    dest: "/home/{{ username }}/.ssh/"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0644
+  with_items: "{{ ssh_keys_list }}"
+
+- name: home | {{ username }} | copy private keys
+  tags: dotfiles,ssh,ssh-keys,home
+  copy:
+    src: "../files/users/adrian/ssh/{{ item.private_key_file }}"
+    dest: "/home/{{ username }}/.ssh/"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0600
+  with_items: "{{ ssh_keys_list }}"

@@ -1,0 +1,26 @@
+- name: restart_autofs
+  tags: autofs,system,system setup
+  service:
+    name: autofs
+    state: restarted
+
+- name: restart_earlyoom
+  tags: earlyoom,system,system setup,tweaks
+  service:
+    name: earlyoom
+    state: restarted
+
+- name: gnome_tracker_clean_cache
+  tags: gnome,tracker
+  file:
+    path: /home/{{ username }}/.cache/tracker
+    state: absent
+
+- name: gnome_tracker_clean_local_cache
+  tags: gnome,tracker
+  file:
+    path: /home/{{ username }}/.local/share/tracker
+    state: absent
+
+- name: enable_gnome_extensions
+  include_tasks: handlers/enable_gnome_extensions.yml

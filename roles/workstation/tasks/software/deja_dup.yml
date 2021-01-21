@@ -1,0 +1,8 @@
+- name: software | deja dup | install package
+  tags: packages,deja_dup,flatpak,workstation-packages
+  become_user: "{{ username }}"
+  flatpak:
+    name: org.gnome.DejaDup
+    method: user
+    state: present
+  when: deja_dup is defined and deja_dup == true

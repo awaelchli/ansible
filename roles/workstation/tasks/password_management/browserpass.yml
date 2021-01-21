@@ -1,0 +1,35 @@
+- name: password manager | browserpass | download browserpass-native binaries
+  tags: password-manager,browserpass
+  unarchive: 
+    src: "https://github.com/browserpass/browserpass-native/releases/download/{{ browserpass_version }}/browserpass-linux64-{{ browserpass_version }}.tar.gz"
+    dest: /tmp
+    remote_src: yes
+  
+- name: password manager | browserpass | configure browserpass-native
+  tags: password-manager,browserpass
+  make:
+    chdir: "/tmp/browserpass-linux64-{{ browserpass_version }}"
+    target: configure
+    params:
+      BIN: browserpass-linux64
+
+- name: password manager | browserpass | install browserpass-native
+  tags: password-manager,browserpass
+  become: yes
+  make:
+    chdir: "/tmp/browserpass-linux64-{{ browserpass_version }}"
+    target: install  # installs to /usr/lib/browserpass/ by default
+    params:
+      BIN: browserpass-linux64
+
+- name: password manager | browserpass | configure browserpass browser integration
+  tags: password-manager,browserpass
+  become_user: "{{ username }}"
+  make: 
+    chdir: /usr/lib/browserpass/
+    target: 
+      "{{ item }}"
+  with_items:
+    - hosts-chrome-user
+    - hosts-firefox-user
+    - policies-chrome-user  # auto-install extension

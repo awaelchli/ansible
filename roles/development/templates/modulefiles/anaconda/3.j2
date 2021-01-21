@@ -1,0 +1,23 @@
+#%Module1.0
+#
+# module file for Anaconda3
+#
+##########################################################################
+
+#-- help routine
+proc ModulesHelp { } {
+  global INSTDIR
+  puts stderr "Anaconda3.
+"
+}
+
+
+#-- message routine
+proc ModulesDisplay { } {
+  puts stderr "\n"
+  ModulesHelp
+}
+
+set             INSTDIR             {{ anaconda_prefix }}
+
+prepend-path    PATH                ${INSTDIR}/bin

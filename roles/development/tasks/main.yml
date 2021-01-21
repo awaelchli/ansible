@@ -1,0 +1,6 @@
+---
+- block:
+  - import_tasks: anaconda/anaconda.yml
+    tags: anaconda
+  - import_tasks: cuda/cuda.yml
+    tags: cuda

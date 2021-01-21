@@ -1,0 +1,8 @@
+- name: software | skype | install package
+  tags: packages,skype,flatpak,workstation-packages
+  become_user: "{{ username }}"
+  flatpak:
+    name: com.skype.Client
+    method: user
+    state: present
+  when: skype is defined and skype == true

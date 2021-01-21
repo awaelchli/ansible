@@ -1,0 +1,16 @@
+- name: software | texlive | install packages
+  tags: packages,tex,texlive,workstation-packages
+  package:
+    name:
+      - latexmk
+      - texlive
+      - texlive-science
+      - texlive-pictures
+      - texlive-pstricks
+      - texlive-latex-extra
+      - texlive-fonts-extra
+      - texlive-formats-extra
+      - texlive-lang-all
+      - texlive-bibtex-extra
+    state: present
+  when: texlive is defined and texlive == true

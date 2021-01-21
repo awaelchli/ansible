@@ -1,0 +1,36 @@
+# user information
+username: adrian
+groupname: adrian
+full_name: Adrian Wälchli
+
+# default shell
+shell: /usr/bin/fish
+
+# dotfiles
+home_repository_https_url: https://github.com/awaelchli/dotfiles.git
+home_repository_ssh_url: git@github.com:awaelchli/dotfiles.git
+home_repository_branch: master
+
+# ssh keys
+# located in files/users/<username>/ssh/
+ssh_keys_list:
+  - public_key_file: id_rsa.pub
+    private_key_file: id_rsa
+    comment: Adrian Waelchli
+    state: absent
+  - public_key_file: master_id_ed25519.pub
+    private_key_file: master_id_ed25519
+    comment: Adrian Waelchli
+    state: present
+
+# openssh
+ssh_port: 22
+
+# tz timezone
+timezone_name: Europe/Zurich
+
+# external resources, large file downloads
+# resources_url: https://cloud.aedug.com/s/eWEDBwy48E9xxcM/resources
+
+# password management
+browserpass_version: 3.0.7

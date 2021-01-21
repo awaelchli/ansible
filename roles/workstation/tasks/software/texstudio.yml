@@ -1,0 +1,8 @@
+- name: software | texstudio | install package
+  tags: packages,texstudio,flatpak,workstation-packages
+  become_user: "{{ username }}"
+  flatpak:
+    name: flathub org.texstudio.TeXstudio
+    method: user
+    state: present
+  when: texstudio is defined and texstudio == true

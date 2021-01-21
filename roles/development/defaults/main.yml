@@ -1,0 +1,9 @@
+# the version of python to install, either 2 or 3.
+anaconda_python_version: 3
+
+# the version of anaconda to install
+# see https://www.anaconda.com/distribution/
+anaconda_version: 2020.11
+
+# where to install anaconda
+anaconda_prefix:  /usr/local/anaconda3

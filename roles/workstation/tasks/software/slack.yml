@@ -1,0 +1,8 @@
+- name: software | slack | install package
+  tags: packages,slack,flatpak,workstation-packages
+  become_user: "{{ username }}"
+  flatpak:
+    name: com.slack.Slack
+    method: user
+    state: present
+  when: slack is defined and slack == true

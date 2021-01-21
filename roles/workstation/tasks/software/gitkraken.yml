@@ -1,0 +1,8 @@
+- name: software | gitkraken | install package
+  tags: packages,gitkraken,flatpak,workstation-packages
+  become_user: "{{ username }}"
+  flatpak:
+    name: com.axosoft.GitKraken
+    method: user
+    state: present
+  when: gitkraken is defined and gitkraken == true

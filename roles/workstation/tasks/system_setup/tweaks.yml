@@ -1,0 +1,57 @@
+# set up flatpak support
+- name: system setup | tweaks | add flatpak support
+  package:
+    name: flatpak
+    state: present
+
+- name: system setup | tweaks | flatpak | add flathub remote
+  tags: packages,flatpak,workstation-packages
+  become_user: "{{ username }}"
+  flatpak_remote:
+    name: flathub
+    flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
+    method: user
+    state: present
+
+# set up snap support
+# note: not available in Arch currently as of 2020-09-15
+- name: system setup | tweaks | install snapd
+  package:
+    name: snapd
+    state: latest
+  when: ansible_distribution != "Archlinux"
+
+# Ensure core snap is installed
+- name: system setup | tweaks | install/update core snap
+  tags: packages,snap,todoist,workstation-packages
+  snap:
+    name:  core
+    state: present
+  when: ansible_distribution != "Archlinux"
+
+- name: system setup | tweaks | add exceptions for earlyoom
+  tags: system,system-setup,tweaks
+  lineinfile:
+      dest: /etc/default/earlyoom
+      regexp: '^EARLYOOM_ARGS="-r 60"'
+      line: "EARLYOOM_ARGS=\"-m 5 -r 60 --avoid '(^|/)(init|Xorg|ssh|kdenlive*)$'\""
+  notify: restart_earlyoom
+
+# distro-specific tasks for ubuntu
+- name: system setup | tweaks | disable apport in config on ubuntu-based hosts
+  tags: distro,distro-setup,apport,ubuntu
+  lineinfile:
+    dest: /etc/default/apport
+    regexp: "enabled="
+    line: "enabled=0"
+  failed_when: false
+  when: ansible_distribution in ["Pop!_OS", "Ubuntu"]
+
+- name: system setup | tweaks | disable and stop apport service on ubuntu-based hosts
+  tags: distro,distro-setup,apport,ubuntu
+  service:
+    name: apport
+    enabled: no
+    state: stopped
+  failed_when: false
+  when: ansible_distribution in ["Pop!_OS", "Ubuntu"]

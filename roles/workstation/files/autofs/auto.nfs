@@ -1,0 +1,7 @@
+/mnt/quantumvault/archive -fstype=nfs4,soft,intr,rsize=8192,wsize=8192 quantumvault.local:/mnt/user/Archive
+/mnt/quantumvault/backups -fstype=nfs4,soft,intr,rsize=8192,wsize=8192 quantumvault.local:/mnt/user/Backups
+/mnt/quantumvault/movies -fstype=nfs4,soft,intr,rsize=8192,wsize=8192 quantumvault.local:/mnt/user/Movies
+/mnt/quantumvault/music -fstype=nfs4,soft,intr,rsize=8192,wsize=8192 quantumvault.local:/mnt/user/Music
+/mnt/quantumvault/photos -fstype=nfs4,soft,intr,rsize=8192,wsize=8192 quantumvault.local:/mnt/user/Photos
+/mnt/quantumvault/public -fstype=nfs4,soft,intr,rsize=8192,wsize=8192 quantumvault.local:/mnt/user/Public
+/mnt/quantumvault/tv-shows -fstype=nfs4,soft,intr,rsize=8192,wsize=8192 quantumvault.local:/mnt/user/TV\ Shows

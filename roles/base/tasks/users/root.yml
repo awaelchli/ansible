@@ -1,0 +1,4 @@
+- name: users | root | ensure account is locked
+  user:
+    name: root
+    password_lock: yes

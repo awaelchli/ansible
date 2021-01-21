@@ -1,0 +1,11 @@
+# openssh
+ssh_users: "root adrian"
+password_authentication: "yes"
+permit_root_login: "yes"
+
+# platform-specific
+microcode_amd_install: true
+microcode_intel_install: false
+
+# server
+unattended_upgrades: true

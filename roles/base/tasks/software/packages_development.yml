@@ -1,0 +1,12 @@
+- name: software | development packages | install packages
+  tags: dev,development,packages,python,ruby
+  package:
+    name:
+      - git
+      - "{{ python_flake8_package }}"
+      - "{{ python_package }}"
+      - "{{ python_pip_package }}"
+      - "{{ python_pyflakes_package }}"
+      - python-setuptools
+      - "{{ python_virtualenv_package }}"
+    state: latest

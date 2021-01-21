@@ -1,0 +1,16 @@
+# - name: software | pycharm | install package
+#   tags: packages,pycharm,flatpak,workstation-packages
+#   become_user: "{{ username }}"
+#   flatpak:
+#     name: com.jetbrains.PyCharm-Professional
+#     method: user
+#     state: present
+#   when: pycharm is defined and pycharm == true
+
+
+- name: software | pycharm professional | install packages
+  tags: packages,snap,pycharm,workstation-packages
+  snap:
+    name: pycharm-professional
+    classic: yes
+  when: pycharm is defined and pycharm == true

@@ -1,0 +1,8 @@
+- name: software | filezilla | install package
+  tags: packages,filezilla,flatpak,workstation-packages
+  become_user: "{{ username }}"
+  flatpak:
+    name: org.filezillaproject.Filezilla
+    method: user
+    state: present
+  when: filezilla is defined and filezilla == true

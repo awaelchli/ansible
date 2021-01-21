@@ -1,0 +1,13 @@
+[server]
+euler.inf.unibe.ch
+
+[gpu_server]
+cluster.inf.unibe.ch
+euler.inf.unibe.ch
+wally.inf.unibe.ch
+
+[workstation]
+solarflare
+
+[notebook]
+solarflare

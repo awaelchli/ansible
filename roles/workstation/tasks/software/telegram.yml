@@ -1,0 +1,18 @@
+- name: software | telegram | install package
+  tags: packages,flatpak,telegram,workstation-packages
+  become_user: "{{ username }}"
+  flatpak:
+    name: org.telegram.Desktop
+    method: user
+    state: present
+  when: telegram is defined and telegram == true
+
+# - name: software | telegram | enable autostart
+#   tags: packages,flatpak,telegram,workstation-packages
+#   file:
+#     src: /home/{{ username }}/.local/share/flatpak/exports/share/applications/org.telegram.desktop.desktop
+#     dest: /home/{{ username }}/.config/autostart/org.telegram.desktop.desktop
+#     owner: "{{ username }}"
+#     group: "{{ groupname }}"
+#     state: link
+#   when: telegram is defined and telegram == true

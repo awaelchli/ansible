@@ -1,0 +1,44 @@
+- name: password manager | pass | install base packages
+  tags: password-manager,pass
+  package:
+    name:
+      - pass
+    state: present
+
+- name: password manager | pass | clone pass-update plugin
+  tags: password-manager,pass
+  git:
+    repo: https://github.com/roddhjav/pass-update
+    version: master
+    dest: /tmp/pass-update
+
+- name: password manager | pass | install pass-update
+  tags: password-manager,pass
+  become: yes
+  make:
+    chdir: /tmp/pass-update
+    target: install
+
+- name: password manager | pass | clone password-store
+  tags: password-manager,pass
+  become_user: "{{ username }}"
+  git:
+    repo: git@github.com:awaelchli/password-store.git
+    version: master
+    dest: "/home/{{ username }}/.password-store"
+    # keyfile must have no password protection
+    key_file: "/home/{{ username }}/.ssh/id_rsa"
+
+# - name: gpg | {{ username }} | copy master key to temporary location
+#   tags: gpg
+#   become: yes
+#   become_user: "{{ username }}"
+#   copy:
+#     - src: users/{{ username }}/gpg/master.asc
+#     - dest: /home/{{ username }}/master.asc
+
+# - name: gpg | {{ username }} | import master key
+#   tags: gpg
+#   become: yes
+#   become_user: "{{ username }}"
+#   command: "gpg --batch --import /home/{{ username }}/gpg/master.asc --import-ownertrust ultimate --passphrase {{ gpg-passphrase }} --pinentry-mode loopback"

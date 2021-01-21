@@ -1,0 +1,9 @@
+- include_vars: "{{ ansible_distribution }}.yml"
+  tags: always
+
+- block:
+  # - import_tasks: ufw.yml
+
+
+  rescue:
+    - set_fact: task_failed=true

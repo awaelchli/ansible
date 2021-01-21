@@ -1,0 +1,83 @@
+---
+
+- name: system setup | nvidia | detect if NVIDIA GPU is available
+  shell: lspci | grep NVIDIA 
+  register: lspci
+  ignore_errors: true
+  changed_when: false
+
+- name: system setup | nvidia | set GPU fact
+  set_fact:
+    has_gpu: "{{ lspci.stderr == '' }}"
+
+- name: system setup | nvidia | determine current NVIDIA driver version
+  tags: nivida,system setup 
+  when: has_gpu
+  block: 
+    - name: system setup | nvidia | determine if nvidia-smi is available
+      command: which nvidia-smi
+      register: which_output
+      changed_when: false
+      failed_when: false
+ 
+    - name: system setup | nvidia | set nvidia-smi fact
+      set_fact:
+        nvidia_smi_available: "{{ which_output.rc == 0 }}"
+      changed_when: false
+
+    - name: system setup | nvidia | determine current NVIDIA driver version 
+      command: nvidia-smi --query-gpu=driver_version --format=csv,noheader -i 0
+      register: nvidia_smi
+      changed_when: false
+      failed_when: false
+      ignore_errors: true 
+      when: nvidia_smi_available
+
+    - name: system setup | nvidia | set current driver fact
+      set_fact:
+        need_upgrade: "{{ nvidia_smi.stdout != nvidia_driver_version }}"
+      changed_when: false
+      when: nvidia_smi_available
+
+- name: system setup | nvidia | install NVIDIA driver
+  tags: nivida,system setup
+  when: 
+    - has_gpu
+    - not nvidia_smi_available or (need_upgrade is defined and need_upgrade)
+  block:
+    - name: system setup | nvidia | install requirements
+      package: 
+        name: 
+          - dkms
+        state: present
+
+    - name: system setup | nvidia | download NVIDIA driver {{ nvidia_driver_version }}
+      get_url:
+        # example:
+        # https://us.download.nvidia.com/XFree86/Linux-x86_64/460.32.03/NVIDIA-Linux-x86_64-460.32.03.run
+        url: "{{ nvidia_driver_base_url }}/{{ nvidia_driver_version }}/NVIDIA-Linux-x86_64-{{ nvidia_driver_version }}.run"
+        dest: "/tmp/nvidia_installer_{{ nvidia_driver_version }}.run"
+        mode: u=rwx,g=rx,o=r
+
+    - name: system setup | nvidia | blacklist nouveau driver module
+      kernel_blacklist:
+        name: nouveau
+        state: present
+
+    # - name: system setup | nvidia | permanently disable nouveau driver
+    #   command: grub2-editenv - set "$(grub2-editenv - list | grep kernelopts) nouveau.modeset=0"
+
+    # - name: system setup | nvidia | regenerate initramfs
+    #   command: dracut --force
+
+    - name: system setup | nvidia | switch to text mode
+      command: systemctl isolate multi-user.target
+      changed_when: false
+
+    - name: system setup | nvidia | install NVIDIA driver {{ nvidia_driver_version }}
+      command: "sh nvidia_installer_{{ nvidia_driver_version }}.run --silent --accept-license --dkms"
+      args:
+        chdir: /tmp
+      notify:
+        - reboot_host
+  

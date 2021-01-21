@@ -1,0 +1,13 @@
+- name: system setup | fonts | accept eula for non-free microsoft fonts
+  debconf: 
+    name: msttcorefonts
+    question: msttcorefonts/accepted-mscorefonts-eula
+    value: "true"
+    vtype: select
+
+- name: system setup | fonts | install microsoft fonts
+  tags: packages,fonts
+  package:
+    name: ttf-mscorefonts-installer
+    state: present
+  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]

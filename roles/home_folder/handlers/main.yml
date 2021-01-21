@@ -1,0 +1,6 @@
+- name: update_xdg
+  tags: users,config,xdg
+  become_user: "{{ username }}"
+  command: /usr/bin/xdg-user-dirs-update
+  changed_when: false
+  ignore_errors: yes

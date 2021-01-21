@@ -1,0 +1,8 @@
+- name: software | thunderbird | install package
+  tags: packages,flatpak,thunderbird,workstation-packages
+  become_user: "{{ username }}"
+  flatpak:
+    name: org.mozilla.thunderbird
+    method: user
+    state: present
+  when: thunderbird is defined and thunderbird == true

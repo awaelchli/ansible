@@ -1,0 +1,28 @@
+#%Module1.0
+#
+# module file for cuda {{ item.version }}
+#
+##########################################################################
+
+#-- help routine
+proc ModulesHelp { } {
+  global INSTDIR
+  puts stderr "CUDA {{ item.version }}"
+}
+
+
+#-- message routine
+proc ModulesDisplay { } {
+  puts stderr "\n"
+  ModulesHelp
+}
+
+set             INSTDIR             /usr/local/cuda-{{ item.version }}
+
+prepend-path    PATH                ${INSTDIR}/bin
+prepend-path    LD_LIBRARY_PATH     ${INSTDIR}/lib
+prepend-path    LD_LIBRARY_PATH     ${INSTDIR}/lib64
+prepend-path    C_INCLUDE_PATH      ${INSTDIR}/samples/common/inc
+prepend-path    C_INCLUDE_PATH      ${INSTDIR}/include
+prepend-path    CPLUS_INCLUDE_PATH  ${INSTDIR}/samples/common/inc
+prepend-path    CPLUS_INCLUDE_PATH  ${INSTDIR}/include

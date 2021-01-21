@@ -1,0 +1,20 @@
+# - name: software | firefox | install package
+#   tags: packages,firefox,flatpak,workstation-packages
+#   become_user: "{{ username }}"
+#   flatpak:
+#     name: org.mozilla.firefox
+#     method: user
+#     state: present
+#   when: firefox is defined and firefox == true
+
+# - name: software | firefox | set filesystem permissions
+#   tags: packages,firefox,flatpak,workstation-packages
+#   command: flatpak override org.mozilla.firefox --filesystem=host
+#   changed_when: false
+
+- name: software | firefox | install package
+  tags: packages,firefox,workstation-packages
+  package:
+    name: firefox
+    state: latest
+  when: firefox is defined and firefox == true

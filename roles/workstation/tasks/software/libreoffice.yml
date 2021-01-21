@@ -1,0 +1,26 @@
+- name: software | libreoffice | install package
+  tags: packages,flatpak,libreoffice,workstation-packages
+  become_user: "{{ username }}"
+  flatpak:
+    name: org.libreoffice.LibreOffice
+    method: user
+    state: present
+  when: libreoffice is defined and libreoffice == true
+
+- name: software | libreoffice | additional spell checkers
+  tags: packages,libreoffice,spell-checker,workstation-packages
+  package:
+    name:
+      - aspell-en
+      - aspell-de
+      - aspell-fr
+    state: present
+
+- name: software | libreoffice | additional thesaurus
+  tags: packages,libreoffice,thesaurus,workstation-packages
+  package:
+    name:
+      - mythes-en-us
+      - mythes-de
+      - mythes-fr
+    state: present
