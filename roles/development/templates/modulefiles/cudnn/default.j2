@@ -1,0 +1,30 @@
+#%Module1.0
+#
+# module file for cuDNN {{ item.version }} with CUDA {{ item.for_cuda }}
+#
+##########################################################################
+
+#-- help routine
+proc ModulesHelp { } {
+  global INSTDIR
+  puts stderr "cuDNN {{ item.version }} for CUDA {{ item.for_cuda }}
+
+Libraries in ${INSTDIR}/lib64
+Headers in   ${INSTDIR}/include
+"
+}
+
+
+#-- message routine
+proc ModulesDisplay { } {
+  puts stderr "\n"
+  ModulesHelp
+}
+
+set             INSTDIR             {{ cudnn_prefix }}/{{ item.version }}+cuda{{ item.for_cuda }}/
+
+module load     cuda/{{ item.for_cuda }}
+
+prepend-path    LD_LIBRARY_PATH     ${INSTDIR}/lib64
+prepend-path    C_INCLUDE_PATH      ${INSTDIR}/include
+prepend-path    CPLUS_INCLUDE_PATH  ${INSTDIR}/include

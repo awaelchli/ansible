@@ -1,0 +1,30 @@
+#%Module1.0
+#
+# module file for nccl {{ item.version }} and CUDA {{ item.for_cuda }}
+#
+##########################################################################
+
+#-- help routine
+proc ModulesHelp { } {
+  global INSTDIR
+  puts stderr "nccl {{ item.version }} for cuda {{ item.for_cuda }}
+
+Libraries in ${INSTDIR}/lib64
+Headers in   ${INSTDIR}/include
+"
+}
+
+
+#-- message routine
+proc ModulesDisplay { } {
+  puts stderr "\n"
+  ModulesHelp
+}
+
+set             INSTDIR             /usr/local/nccl/{{ item.version }}+cuda{{ item.for_cuda }}
+
+module load     cuda/{{ item.for_cuda }}
+
+prepend-path    LD_LIBRARY_PATH     ${INSTDIR}/lib
+prepend-path    C_INCLUDE_PATH      ${INSTDIR}/include
+prepend-path    CPLUS_INCLUDE_PATH  ${INSTDIR}/include
