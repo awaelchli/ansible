@@ -2,6 +2,7 @@
 username: adrian
 groupname: adrian
 full_name: Adrian Wälchli
+full_name_ascii: Adrian Waelchli
 
 # default shell
 shell: /usr/bin/fish
@@ -16,11 +17,11 @@ home_repository_branch: master
 ssh_keys_list:
   - public_key_file: id_rsa.pub
     private_key_file: id_rsa
-    comment: Adrian Waelchli
+    comment: "{{ full_name_ascii }}"
     state: absent
   - public_key_file: master_id_ed25519.pub
     private_key_file: master_id_ed25519
-    comment: Adrian Waelchli
+    comment: "{{ full_name_ascii }}"
     state: present
 
 # openssh

@@ -1,7 +1,7 @@
 # playbook to setup personal home folder on all managed remote servers
 
 - hosts:
-    # - cluster.inf.unibe.ch
+    - cluster.inf.unibe.ch
     - euler.inf.unibe.ch
     - wally.inf.unibe.ch
 

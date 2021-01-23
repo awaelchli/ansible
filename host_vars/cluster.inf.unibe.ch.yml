@@ -4,3 +4,15 @@ ansible_user: aw18f408
 username: aw18f408
 groupname: aw18f408
 
+# ssh keys
+# overrides group vars
+# cluster does no support ed25519, will keep using old rsa keys
+ssh_keys_list:
+  - public_key_file: id_rsa.pub
+    private_key_file: id_rsa
+    comment: "{{ full_name_ascii }}"
+    state: present
+  - public_key_file: master_id_ed25519.pub
+    private_key_file: master_id_ed25519
+    comment: "{{ full_name_ascii }}"
+    state: present
