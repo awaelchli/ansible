@@ -1,0 +1,23 @@
+# openssh
+ssh_users: "adrian"
+
+# platform-specific
+ansible_python_interpreter: /usr/bin/python3
+microcode_amd_install: false
+microcode_intel_install: true
+
+# app defaults
+gui_editor: gedit
+terminal_emulator: terminator
+web_browser: flatpak run org.mozilla.firefox
+
+# application selection
+firefox: true
+gitkraken: true
+libreoffice: true
+pycharm: true
+vlc: true
+vscode: true
+
+# desktop environment selection
+gnome: true
