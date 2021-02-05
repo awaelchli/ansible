@@ -7,7 +7,7 @@ VAULT_KEY_FILE="$HOME/.vault-key"
 PRECMD="sudo systemd-inhibit --who='ansible-pull' --why='provisioning'"
 
 # install ansible if necessary
-apt install -y ansible
+apt install -y ansible git
 
 # run ansible-pull command
 if [ $# -eq 0 ]
