@@ -1,3 +1,11 @@
+- name: gnome | appearance | install required packages
+  tags: gnome,gnome-wallpaper
+  package: 
+    state: present
+    name: 
+      - python3-psutil
+  when: ansible_distribution in ["Debian", "Ubuntu"]
+
 - name: gnome | appearance | copy wallpaper file
   tags: gnome,gnome-wallpaper
   copy:
