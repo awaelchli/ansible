@@ -1,0 +1,8 @@
+- hosts:
+    - gamma.inf.unibe.ch
+
+  roles:
+    - base
+    - development
+    - home_folder
+    - workstation
