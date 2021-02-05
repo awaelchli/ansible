@@ -1,0 +1,4 @@
+- name: system setup | network | set hostname
+  hostname: 
+    name: "{{ hostname }}"
+  when: hostname is defined

@@ -1,3 +1,6 @@
+# network
+hostname: euler
+
 # openssh
 ssh_users: "root adrian"
 password_authentication: "yes"

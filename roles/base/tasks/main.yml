@@ -25,6 +25,8 @@
   - import_tasks: system_setup/logging.yml
   - import_tasks: system_setup/memory.yml
   - import_tasks: system_setup/microcode.yml
+  - import_tasks: system_setup/network.yml
+    tags: network
   - import_tasks: system_setup/nvidia.yml
     tags: nvidia
   - import_tasks: system_setup/openssh.yml
