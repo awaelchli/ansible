@@ -24,6 +24,7 @@
       - sshfs
       - tmux
       - traceroute
+      - trash-cli
       - "{{ vim_package }}"
       - unzip
       - wget
