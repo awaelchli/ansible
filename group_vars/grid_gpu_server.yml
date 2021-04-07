@@ -1,0 +1,4 @@
+username: adrian
+groupname: adrian
+ansible_user: adrian
+anaconda_prefix: "/home/adrian/anaconda3"

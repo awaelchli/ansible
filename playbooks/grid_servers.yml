@@ -1,0 +1,16 @@
+# playbook to setup development servers at Grid
+
+- hosts:
+    - grid_gpu_server
+  become: true
+
+  tasks:
+  - name: development roles
+    include_role:
+      name: development
+      tasks_from: anaconda/anaconda.yml
+
+  roles:
+    #- base
+    - home_folder
+    #- development

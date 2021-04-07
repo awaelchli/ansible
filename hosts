@@ -6,6 +6,9 @@ cluster.inf.unibe.ch
 euler.inf.unibe.ch
 wally.inf.unibe.ch
 
+[grid_gpu_server]
+10.10.10.22
+
 [workstation]
 solarflare
 gamma.inf.unibe.ch
