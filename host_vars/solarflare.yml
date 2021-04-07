@@ -1,6 +1,9 @@
 # network
 hostname: solarflare
 
+# home folder setup
+copy_private_keys: true
+
 # openssh
 ssh_users: "adrian"
 

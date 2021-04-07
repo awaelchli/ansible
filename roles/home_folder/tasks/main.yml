@@ -92,6 +92,7 @@
 
 - name: home | {{ username }} | copy private keys
   tags: dotfiles,ssh,ssh-keys,home
+  when: copy_private_keys is defined and copy_private_keys
   copy:
     src: "../files/users/adrian/ssh/{{ item.private_key_file }}"
     dest: "/home/{{ username }}/.ssh/"

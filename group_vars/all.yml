@@ -24,6 +24,9 @@ ssh_keys_list:
     comment: "{{ full_name_ascii }}"
     state: present
 
+# when setting up the home folder, copy the private keys to .ssh/
+copy_private_keys: false
+
 # openssh
 ssh_port: 22
 
