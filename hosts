@@ -8,6 +8,7 @@ wally.inf.unibe.ch
 
 [grid_gpu_server]
 10.10.10.22
+10.10.10.25
 
 [workstation]
 solarflare
